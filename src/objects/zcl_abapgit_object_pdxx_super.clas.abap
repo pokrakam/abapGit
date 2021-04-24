@@ -98,7 +98,7 @@ CLASS zcl_abapgit_object_pdxx_super IMPLEMENTATION.
 
 
   METHOD zif_abapgit_object~deserialize.
-    assert 1 = 2. "Must be redefined
+    ASSERT 1 = 2. "Must be redefined
   ENDMETHOD.
 
 
@@ -141,7 +141,7 @@ CLASS zcl_abapgit_object_pdxx_super IMPLEMENTATION.
 
 
   METHOD zif_abapgit_object~serialize.
-    assert 1 = 2. "Must be redefined
+    ASSERT 1 = 2. "Must be redefined
   ENDMETHOD.
 
 

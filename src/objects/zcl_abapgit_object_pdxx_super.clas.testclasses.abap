@@ -1,4 +1,4 @@
-CLASS lcl_object_pdxx DEFINITION INHERITING FROM zcl_abapgit_object_pdxx_super
+CLASS lth_object_pdxx DEFINITION INHERITING FROM zcl_abapgit_object_pdxx_super
   FINAL
   FOR TESTING
   DURATION SHORT
@@ -8,7 +8,7 @@ CLASS lcl_object_pdxx DEFINITION INHERITING FROM zcl_abapgit_object_pdxx_super
     METHODS get_objkey RETURNING VALUE(rv_result) TYPE hrsobject.
 ENDCLASS.
 
-CLASS lcl_object_pdxx IMPLEMENTATION.
+CLASS lth_object_pdxx IMPLEMENTATION.
 
   METHOD get_objkey.
     rv_result = ms_objkey.
@@ -46,7 +46,7 @@ CLASS ltc_lock IMPLEMENTATION.
     ls_item-obj_type = 'PDXX'.
     ls_item-obj_name = 'XX' && lc_dummy.
 
-    CREATE OBJECT lo_cut TYPE lcl_object_pdxx
+    CREATE OBJECT lo_cut TYPE lth_object_pdxx
       EXPORTING
         is_item     = ls_item
         iv_language = sy-langu.
@@ -99,13 +99,13 @@ ENDCLASS.
 CLASS ltc_general_tests IMPLEMENTATION.
 
   METHOD hrobj_derived_from_otype.
-    DATA: lo_cut  TYPE REF TO lcl_object_pdxx,
+    DATA: lo_cut  TYPE REF TO lth_object_pdxx,
           ls_item TYPE zif_abapgit_definitions=>ty_item.
 
     ls_item-obj_type = 'PDZZ'.
     ls_item-obj_name = 'ZZ99999999'.
 
-    CREATE OBJECT lo_cut TYPE lcl_object_pdxx
+    CREATE OBJECT lo_cut TYPE lth_object_pdxx
       EXPORTING
         is_item     = ls_item
         iv_language = sy-langu.
