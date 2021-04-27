@@ -1,4 +1,3 @@
-
 CLASS ltc_ci DEFINITION FINAL FOR TESTING
   DURATION MEDIUM
   RISK LEVEL CRITICAL.
@@ -13,6 +12,10 @@ CLASS ltc_ci IMPLEMENTATION.
   METHOD run_ci.
 
     DATA lv_repo_url TYPE string.
+
+    IF zcl_abapgit_persist_settings=>get_instance( )->read( )->get_experimental_features( ) = abap_false.
+      RETURN.
+    ENDIF.
 
     "Use STVARV to optionally override repo in local system
     SELECT SINGLE low
@@ -47,7 +50,12 @@ ENDCLASS.
 CLASS ltc_smoke_test IMPLEMENTATION.
 
   METHOD setup.
+
     DATA  ls_item   TYPE zif_abapgit_definitions=>ty_item.
+
+    IF zcl_abapgit_persist_settings=>get_instance( )->read( )->get_experimental_features( ) = abap_false.
+      RETURN.
+    ENDIF.
 
     ls_item-obj_type = 'PDTS'.
     ls_item-obj_name = '99999999'.
@@ -64,6 +72,11 @@ CLASS ltc_smoke_test IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD run_simple_methods.
+
+    IF zcl_abapgit_persist_settings=>get_instance( )->read( )->get_experimental_features( ) = abap_false.
+      RETURN.
+    ENDIF.
+
     mo_cut->get_comparator( ).
     mo_cut->get_deserialize_steps( ).
     mo_cut->get_metadata( ).
