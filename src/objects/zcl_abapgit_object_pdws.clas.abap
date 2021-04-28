@@ -34,7 +34,7 @@ CLASS zcl_abapgit_object_pdws IMPLEMENTATION.
       zcx_abapgit_exception=>raise( 'PDWS is still work in progress, enable experimental features to test it' ).
     ENDIF.
 
-    ms_objkey-otype = swfco_org_workflow_template.
+    ms_objkey-otype = 'WS'.
     ms_objkey-objid = ms_item-obj_name.
 
   ENDMETHOD.
