@@ -134,23 +134,21 @@ CLASS ltc_smoke_test IMPLEMENTATION.
         is_item     = ls_item
         iv_language = sy-langu.
 
-    mo_cut->get_comparator( ).
-    mo_cut->get_deserialize_steps( ).
-    mo_cut->get_metadata( ).
-    mo_cut->is_active( ).
-
   ENDMETHOD.
 
   METHOD serialize.
-    cl_abap_unit_assert=>fail( msg = 'Todo' level = if_aunit_constants=>tolerable ).
+    cl_abap_unit_assert=>fail( msg = 'Todo'
+                               level = if_aunit_constants=>tolerable ).
   ENDMETHOD.
 
   METHOD deserialize.
-    cl_abap_unit_assert=>fail( msg = 'Todo' level = if_aunit_constants=>tolerable ).
+    cl_abap_unit_assert=>fail( msg = 'Todo'
+                               level = if_aunit_constants=>tolerable ).
   ENDMETHOD.
 
   METHOD delete.
-    cl_abap_unit_assert=>fail( msg = 'Todo' level = if_aunit_constants=>tolerable ).
+    cl_abap_unit_assert=>fail( msg = 'Todo'
+                               level = if_aunit_constants=>tolerable ).
   ENDMETHOD.
 
 ENDCLASS.
