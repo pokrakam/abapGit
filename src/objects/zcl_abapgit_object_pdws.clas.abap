@@ -25,7 +25,7 @@ ENDCLASS.
 CLASS zcl_abapgit_object_pdws IMPLEMENTATION.
 
   METHOD constructor.
-
+    DATA(foo) = 1.
     super->constructor( is_item     = is_item
                         iv_language = iv_language ).
 
