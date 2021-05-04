@@ -113,12 +113,58 @@ CLASS ltc_smoke_test DEFINITION FINAL FOR TESTING
     DATA mo_cut TYPE REF TO zif_abapgit_object.
 
     METHODS run_trivial_methods FOR TESTING RAISING cx_static_check.
-    METHODS serialize FOR TESTING RAISING cx_static_check.
     METHODS deserialize FOR TESTING RAISING cx_static_check.
     METHODS delete FOR TESTING RAISING cx_static_check.
 
 ENDCLASS.
 
+CLASS ltc_serialization DEFINITION FINAL FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+
+  PRIVATE SECTION.
+
+    DATA mo_cut TYPE REF TO zif_abapgit_object.
+
+    METHODS setup.
+    METHODS serialize FOR TESTING RAISING cx_static_check.
+
+ENDCLASS.
+
+
+CLASS ltc_serialization IMPLEMENTATION.
+
+  METHOD setup.
+
+    DATA  ls_item   TYPE zif_abapgit_definitions=>ty_item.
+
+    IF zcl_abapgit_persist_settings=>get_instance( )->read( )->get_experimental_features( ) = abap_false.
+      RETURN.
+    ENDIF.
+
+    ls_item-obj_type = 'PDWS'.
+    ls_item-obj_name = '90000001'.
+
+    TRY.
+        CREATE OBJECT mo_cut TYPE zcl_abapgit_object_pdws
+          EXPORTING
+            is_item     = ls_item
+            iv_language = sy-langu.
+      CATCH zcx_abapgit_exception.
+        cl_abap_unit_assert=>fail( ).
+    ENDTRY.
+
+  ENDMETHOD.
+
+  METHOD serialize.
+    DATA li_xml TYPE REF TO zif_abapgit_xml_output.
+
+    CREATE OBJECT li_xml TYPE zcl_abapgit_xml_output.
+    mo_cut->serialize( li_xml ).
+
+  ENDMETHOD.
+
+ENDCLASS.
 
 CLASS ltc_smoke_test IMPLEMENTATION.
 
@@ -134,11 +180,6 @@ CLASS ltc_smoke_test IMPLEMENTATION.
         is_item     = ls_item
         iv_language = sy-langu.
 
-  ENDMETHOD.
-
-  METHOD serialize.
-    cl_abap_unit_assert=>fail( msg = 'Todo'
-                               level = if_aunit_constants=>tolerable ).
   ENDMETHOD.
 
   METHOD deserialize.

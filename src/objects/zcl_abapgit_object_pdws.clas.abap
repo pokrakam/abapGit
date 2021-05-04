@@ -62,6 +62,37 @@ CLASS zcl_abapgit_object_pdws IMPLEMENTATION.
 
   METHOD zif_abapgit_object~serialize.
 
+    DATA: ls_wf_definition_key TYPE swd_wfdkey,
+
+          lo_wfd_xml           TYPE REF TO cl_xml_document_base,
+          lo_wfd_export        TYPE REF TO if_swf_pdef_export,
+          lt_versions          TYPE TABLE OF swd_versns,
+
+          lo_node              TYPE REF TO if_ixml_element,
+
+          ls_definition        TYPE hrsobject.
+
+    ls_definition = 'WS90000001'.
+
+    CALL FUNCTION 'SWD_GET_VERSIONS_OF_WORKFLOW'
+      EXPORTING
+        im_task          = ls_definition
+        im_exetyp        = 'S'
+      IMPORTING
+        ex_active_wfdkey = ls_wf_definition_key
+      TABLES
+        ex_versions      = lt_versions.
+
+    CREATE OBJECT lo_wfd_export TYPE cl_wfd_convert_def_to_ixml.
+
+    lo_wfd_xml = lo_wfd_export->convert( load_from_db = abap_true
+                                         language = sy-langu
+                                         wfd_key = ls_wf_definition_key ).
+
+    lo_node->append_child( lo_wfd_xml->get_first_node( ) ).
+    io_xml->add_xml( iv_name = 'PDWS'
+                     ii_xml = lo_node ).
+
   ENDMETHOD.
 
 ENDCLASS.
